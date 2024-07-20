@@ -5,10 +5,13 @@ namespace Differ\Differ;
 function parseJsonFile(string $pathToFile): array
 {
     $fileContent = file_get_contents($pathToFile);
-    return json_decode($fileContent, true);
+    if ($fileContent === false) {
+        throw new \Exception("Could not read file: $pathToFile");
+    }
+    $json = json_decode($fileContent, true);
+    return $json;
 }
-
-function convertValueToString($value): string
+function convertValueToString(mixed $value): string
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
@@ -19,7 +22,7 @@ function convertValueToString($value): string
     }
 }
 
-function getAllKeys($file1, $file2)
+function getAllKeys(array $file1, array $file2): array
 {
     return array_unique(array_merge(array_keys($file1), array_keys($file2)));
 }
