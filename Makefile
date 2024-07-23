@@ -8,8 +8,11 @@ lint:
 lint-fix:
 	composer exec --verbose phpcbf -- --standard=PSR12 src tests
 
-test-run:
+test-json:
 	./bin/gendiff tests/fixtures/file1.json tests/fixtures/file2.json
+
+test-yml:
+	./bin/gendiff tests/fixtures/file1.yml tests/fixtures/file2.yml
 
 test:
 	composer exec --verbose phpunit tests

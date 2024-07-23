@@ -2,16 +2,9 @@
 
 namespace Differ\Differ;
 
-function parseJsonFile(string $pathToFile): array
-{
-    $fileContent = file_get_contents($pathToFile);
-    if ($fileContent === false) {
-        throw new \Exception("Could not read file: $pathToFile");
-    }
-    $json = json_decode($fileContent, true);
-    return $json;
-}
-function convertValueToString(mixed $value): string
+use function Differ\Parsers\parseFile;
+
+function convertValueToString($value): string
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
@@ -29,8 +22,8 @@ function getAllKeys(array $file1, array $file2): array
 
 function genDiff(string $pathToFile1, string $pathToFile2): string
 {
-    $file1 = parseJsonFile($pathToFile1);
-    $file2 = parseJsonFile($pathToFile2);
+    $file1 = parseFile($pathToFile1);
+    $file2 = parseFile($pathToFile2);
 
     $allKeys = getAllKeys($file1, $file2);
     sort($allKeys);
